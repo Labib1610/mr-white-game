@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. White - The Ultimate Deception Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="screen active">
+            <div class="logo">
+                <h1>🎭 Mr. White</h1>
+                <p class="subtitle">The Ultimate Deception Game</p>
+            </div>
+            
+            <div class="game-description">
+                <h3>How to Play</h3>
+                <ul>
+                    <li><strong>Civilians</strong> get the same word (e.g., "Pizza")</li>
+                    <li><strong>Mr. White</strong> gets a different but related word (e.g., "Pasta")</li>
+                    <li><strong>Undercover</strong> (if any) gets another related word (e.g., "Lasagna")</li>
+                    <li>Give one-word clues about your word without being too obvious</li>
+                    <li>Vote to eliminate who you think is Mr. White or Undercover</li>
+                    <li>Mr. White can win by guessing the Civilian word!</li>
+                </ul>
+            </div>
+
+            <div class="player-selection">
+                <label for="playerCount">Select Number of Players:</label>
+                <div class="player-buttons">
+                    <button class="player-btn" data-count="4">4</button>
+                    <button class="player-btn" data-count="5">5</button>
+                    <button class="player-btn" data-count="6">6</button>
+                    <button class="player-btn" data-count="7">7</button>
+                    <button class="player-btn" data-count="8">8</button>
+                    <button class="player-btn" data-count="9">9</button>
+                    <button class="player-btn" data-count="10">10</button>
+                </div>
+            </div>
+
+            <button id="startGameBtn" class="btn btn-primary" disabled>Start Game</button>
+        </div>
+
+        <!-- Word Distribution Screen -->
+        <div id="distributionScreen" class="screen">
+            <div class="distribution-header">
+                <h2>Word Distribution</h2>
+                <p class="role-info" id="roleInfo"></p>
+            </div>
+
+            <div class="player-card">
+                <div class="player-number" id="currentPlayerNumber"></div>
+                <button id="revealWordBtn" class="btn btn-primary">👁️ Reveal My Word</button>
+                
+                <div id="wordDisplay" class="word-display hidden">
+                    <div class="word-container">
+                        <h3 id="secretWord"></h3>
+                        <p id="roleLabel"></p>
+                    </div>
+                </div>
+
+                <button id="hideWordBtn" class="btn btn-secondary hidden">🔒 Hide & Next Player</button>
+            </div>
+
+            <div class="progress-indicator">
+                <span id="progressText">Player 1 of 4</span>
+            </div>
+        </div>
+
+        <!-- Game Play Screen -->
+        <div id="gamePlayScreen" class="screen">
+            <div class="game-header">
+                <h2>🎮 Game in Progress</h2>
+                <p>Give clues and find the imposters!</p>
+            </div>
+
+            <div class="game-info">
+                <div class="info-card">
+                    <h4>👥 Players</h4>
+                    <p id="totalPlayers">0</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎯 Civilians</h4>
+                    <p id="civilianCount">0</p>
+                </div>
+                <div class="info-card">
+                    <h4>🕵️ Roles</h4>
+                    <p id="roleCount">0</p>
+                </div>
+            </div>
+
+            <div class="game-rules">
+                <h3>Game Flow:</h3>
+                <ol>
+                    <li>Each player gives a <strong>one-word clue</strong> about their word</li>
+                    <li>After all clues, <strong>discuss</strong> who might be Mr. White or Undercover</li>
+                    <li>Use the <strong>Voting</strong> section below to eliminate suspects</li>
+                    <li>If Mr. White is caught, he gets one chance to guess the word</li>
+                    <li>Continue until civilians win or imposters win!</li>
+                </ol>
+            </div>
+
+            <div class="voting-section">
+                <h3>🗳️ Voting & Elimination</h3>
+                <div id="playerList" class="player-list"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="showRolesBtn" class="btn btn-secondary">👁️ Reveal All Roles</button>
+                <button id="newGameBtn" class="btn btn-primary">🔄 New Game</button>
+            </div>
+        </div>
+
+        <!-- Reveal Screen -->
+        <div id="revealScreen" class="screen">
+            <div class="reveal-header">
+                <h2>🎭 Game Reveal</h2>
+            </div>
+
+            <div id="revealContent" class="reveal-content"></div>
+
+            <button id="backToGameBtn" class="btn btn-secondary">← Back to Game</button>
+            <button id="newGameBtn2" class="btn btn-primary">🔄 New Game</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
