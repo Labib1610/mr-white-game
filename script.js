@@ -240,15 +240,19 @@ let gameState = {
     roles: [],
     selectedWordPair: null,
     eliminatedPlayers: [],
+    playerNames: [],
     config: {
         mrWhiteCount: 1,
         includeUndercover: true,
-        undercoverCount: 0  // Will be calculated based on players
+        undercoverCount: 0,
+        showRoleDistribution: true,
+        enableAnimations: true
     }
 };
 
 // DOM Elements
 const welcomeScreen = document.getElementById('welcomeScreen');
+const playerNamesScreen = document.getElementById('playerNamesScreen');
 const distributionScreen = document.getElementById('distributionScreen');
 const gamePlayScreen = document.getElementById('gamePlayScreen');
 const revealScreen = document.getElementById('revealScreen');
@@ -295,6 +299,54 @@ function selectPlayerCount(count) {
 function startGame() {
     if (gameState.playerCount < 4) return;
     
+    // Initialize player names with defaults
+    gameState.playerNames = [];
+    for (let i = 0; i < gameState.playerCount; i++) {
+        gameState.playerNames.push(`Player ${i + 1}`);
+    }
+    
+    // Show player naming screen
+    generatePlayerNamesForm();
+    switchScreen(playerNamesScreen);
+}
+
+// Generate player names input form
+function generatePlayerNamesForm() {
+    const form = document.getElementById('playerNamesForm');
+    form.innerHTML = '';
+    
+    for (let i = 0; i < gameState.playerCount; i++) {
+        const inputGroup = document.createElement('div');
+        inputGroup.className = 'player-name-input';
+        inputGroup.innerHTML = `
+            <label>Player ${i + 1}</label>
+            <input type="text" 
+                   id="playerName${i}" 
+                   placeholder="Player ${i + 1}" 
+                   value="Player ${i + 1}"
+                   maxlength="20">
+        `;
+        form.appendChild(inputGroup);
+    }
+}
+
+// Save player names and continue
+function savePlayerNames() {
+    for (let i = 0; i < gameState.playerCount; i++) {
+        const input = document.getElementById(`playerName${i}`);
+        const name = input.value.trim();
+        gameState.playerNames[i] = name || `Player ${i + 1}`;
+    }
+    startWordDistribution();
+}
+
+// Skip naming and use defaults
+function skipNaming() {
+    startWordDistribution();
+}
+
+// Start word distribution phase
+function startWordDistribution() {
     // Select random word pair
     gameState.selectedWordPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
     
@@ -304,8 +356,12 @@ function startGame() {
     gameState.eliminatedPlayers = [];
     
     // Show role distribution
-    const roleInfo = getRoleDistributionText();
-    document.getElementById('roleInfo').textContent = roleInfo;
+    if (gameState.config.showRoleDistribution) {
+        const roleInfo = getRoleDistributionText();
+        document.getElementById('roleInfo').textContent = roleInfo;
+    } else {
+        document.getElementById('roleInfo').textContent = 'Role distribution hidden';
+    }
     
     switchScreen(distributionScreen);
     updatePlayerDisplay();
@@ -376,8 +432,9 @@ function getRoleDistributionText() {
 
 function updatePlayerDisplay() {
     const playerNum = gameState.currentPlayer + 1;
-    document.getElementById('currentPlayerNumber').textContent = `Player ${playerNum}`;
-    document.getElementById('progressText').textContent = `Player ${playerNum} of ${gameState.playerCount}`;
+    const playerName = gameState.playerNames[gameState.currentPlayer];
+    document.getElementById('currentPlayerNumber').textContent = playerName;
+    document.getElementById('progressText').textContent = `${playerName} (${playerNum} of ${gameState.playerCount})`;
     
     // Reset display
     document.getElementById('wordDisplay').classList.add('hidden');
@@ -426,7 +483,7 @@ function startGamePlay() {
     const others = gameState.playerCount - civilians;
     document.getElementById('roleCount').textContent = `${gameState.config.mrWhiteCount} Mr. White + ${others - gameState.config.mrWhiteCount} Other${others - gameState.config.mrWhiteCount !== 1 ? 's' : ''}`;
     
-    // Create player list
+    // Create player list with custom names
     const playerList = document.getElementById('playerList');
     playerList.innerHTML = '';
     
@@ -434,7 +491,7 @@ function startGamePlay() {
         const playerItem = document.createElement('div');
         playerItem.className = 'player-item';
         playerItem.innerHTML = `
-            <span>Player ${i + 1}</span>
+            <span>${gameState.playerNames[i]}</span>
             <button class="eliminate-btn" onclick="eliminatePlayer(${i})">❌ Eliminate</button>
         `;
         playerList.appendChild(playerItem);
@@ -452,20 +509,21 @@ function eliminatePlayer(index) {
     playerItems[index].querySelector('.eliminate-btn').textContent = '☠️ Eliminated';
     
     const role = gameState.roles[index].role;
+    const playerName = gameState.playerNames[index];
     
     if (role === 'Mr. White') {
         setTimeout(() => {
-            const guess = prompt(`🎭 Mr. White has been found!\n\nMr. White can now guess the civilian word to win!\n\nYour guess:`);
+            const guess = prompt(`🎭 ${playerName} is Mr. White!\n\nMr. White can now guess the civilian word to win!\n\nYour guess:`);
             if (guess && guess.toLowerCase() === gameState.selectedWordPair.civilian.toLowerCase()) {
-                alert(`🎉 Mr. White wins! The correct word was "${gameState.selectedWordPair.civilian}"!\n\nMr. White successfully guessed the word!`);
+                alert(`🎉 Mr. White wins! The correct word was "${gameState.selectedWordPair.civilian}"!\n\n${playerName} successfully guessed the word!`);
             } else {
                 alert(`❌ Wrong guess! The word was "${gameState.selectedWordPair.civilian}".\n\nCivilians win! 👥`);
             }
         }, 500);
     } else if (role === 'Undercover') {
-        alert(`🕵️ Player ${index + 1} was an Undercover!\n\nTheir word was "${gameState.roles[index].word}"\n\nGame continues!`);
+        alert(`🕵️ ${playerName} was an Undercover!\n\nTheir word was "${gameState.roles[index].word}"\n\nGame continues!`);
     } else {
-        alert(`😢 Player ${index + 1} was a Civilian!\n\nAn innocent person was eliminated. Be more careful!`);
+        alert(`😢 ${playerName} was a Civilian!\n\nAn innocent person was eliminated. Be more careful!`);
     }
 }
 
@@ -487,12 +545,13 @@ function showRoles() {
     for (let i = 0; i < gameState.playerCount; i++) {
         const role = gameState.roles[i];
         const eliminated = gameState.eliminatedPlayers.includes(i) ? ' (Eliminated)' : '';
+        const playerName = gameState.playerNames[i];
         
         const playerReveal = document.createElement('div');
         playerReveal.className = `reveal-player ${role.role.toLowerCase().replace(' ', '-').replace('.', '')}`;
         playerReveal.innerHTML = `
             <div>
-                <div class="reveal-player-name">Player ${i + 1}${eliminated}</div>
+                <div class="reveal-player-name">${playerName}${eliminated}</div>
                 <div class="reveal-word">${role.word ? `"${role.word}"` : '❓ NO WORD'}</div>
             </div>
             <div class="reveal-role">${role.role}</div>
@@ -510,10 +569,13 @@ function resetGame() {
         roles: [],
         selectedWordPair: null,
         eliminatedPlayers: [],
+        playerNames: [],
         config: {
-            mrWhiteCount: 1,
-            includeUndercover: true,
-            undercoverCount: 0
+            mrWhiteCount: gameState.config.mrWhiteCount || 1,
+            includeUndercover: gameState.config.includeUndercover !== false,
+            undercoverCount: 0,
+            showRoleDistribution: gameState.config.showRoleDistribution !== false,
+            enableAnimations: gameState.config.enableAnimations !== false
         }
     };
     
@@ -526,9 +588,68 @@ function resetGame() {
 function switchScreen(screen) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     screen.classList.add('active');
+    
+    // Add animation class if enabled
+    if (gameState.config.enableAnimations) {
+        screen.classList.add('slide-in');
+        setTimeout(() => screen.classList.remove('slide-in'), 500);
+    }
+}
+
+// Modal Functions
+function openRulesModal() {
+    document.getElementById('rulesModal').style.display = 'block';
+}
+
+function closeRulesModal() {
+    document.getElementById('rulesModal').style.display = 'none';
+}
+
+function openSettingsModal() {
+    // Load current settings
+    document.getElementById('includeUndercoverToggle').checked = gameState.config.includeUndercover;
+    document.getElementById('mrWhiteCount').value = gameState.config.mrWhiteCount;
+    document.getElementById('showRoleDistribution').checked = gameState.config.showRoleDistribution;
+    document.getElementById('enableAnimations').checked = gameState.config.enableAnimations;
+    
+    document.getElementById('settingsModal').style.display = 'block';
+}
+
+function closeSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'none';
+}
+
+function updateSettings() {
+    gameState.config.includeUndercover = document.getElementById('includeUndercoverToggle').checked;
+    gameState.config.mrWhiteCount = parseInt(document.getElementById('mrWhiteCount').value);
+    gameState.config.showRoleDistribution = document.getElementById('showRoleDistribution').checked;
+    gameState.config.enableAnimations = document.getElementById('enableAnimations').checked;
+}
+
+function showPlayerListModal() {
+    let playerList = 'Current Players:\n\n';
+    for (let i = 0; i < gameState.playerCount; i++) {
+        const status = gameState.eliminatedPlayers.includes(i) ? ' ☠️ (Eliminated)' : ' ✅';
+        playerList += `${i + 1}. ${gameState.playerNames[i]}${status}\n`;
+    }
+    alert(playerList);
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    const rulesModal = document.getElementById('rulesModal');
+    const settingsModal = document.getElementById('settingsModal');
+    
+    if (event.target === rulesModal) {
+        closeRulesModal();
+    }
+    if (event.target === settingsModal) {
+        closeSettingsModal();
+    }
 }
 
 // Initialize
 console.log('🎭 Mr. White Game Loaded!');
 console.log(`📚 ${wordPairs.length} word pairs available`);
 console.log('⚠️ IMPORTANT: Mr. White gets NO WORD!');
+console.log('✨ New features: Player naming, Rules modal, Settings, and more!');

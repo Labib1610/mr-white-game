@@ -158,6 +158,23 @@
             <button id="startGameBtn" class="btn btn-primary" disabled>Start Game</button>
         </div>
 
+        <!-- Player Names Screen -->
+        <div id="playerNamesScreen" class="screen">
+            <div class="distribution-header">
+                <h2>👤 Name Your Players</h2>
+                <p class="role-info">Customize player names (optional)</p>
+            </div>
+
+            <div id="playerNamesForm" class="player-names-form">
+                <!-- Player name inputs will be generated here -->
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="skipNaming()">⏭️ Skip</button>
+                <button class="btn btn-primary" onclick="savePlayerNames()">✅ Continue</button>
+            </div>
+        </div>
+
         <!-- Word Distribution Screen -->
         <div id="distributionScreen" class="screen">
             <div class="distribution-header">
@@ -189,6 +206,10 @@
             <div class="game-header">
                 <h2>🎮 Game in Progress</h2>
                 <p>Give clues and find the imposters!</p>
+                <div class="header-buttons" style="margin-top: 15px;">
+                    <button class="icon-btn" onclick="openRulesModal()">📜 Rules</button>
+                    <button class="icon-btn" onclick="showPlayerListModal()">👥 Players</button>
+                </div>
             </div>
 
             <div class="game-info">
