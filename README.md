@@ -9,23 +9,46 @@ A beautiful, web-based party game where players try to identify the imposters am
 ## 📖 Game Overview
 
 **Mr. White** is a social deduction game where:
-- **Civilians** share the same secret word
-- **Mr. White** gets a different but related word
-- **Undercovers** (optional) get yet another related word
-- Players give clues and vote to eliminate imposters
-- Mr. White can win by guessing the civilian word!
+- **Civilians** all share the same secret word (e.g., "Pizza")
+- **Mr. White** gets **NO WORD AT ALL** - must figure it out from clues!
+- **Undercovers** (optional) get a different but related word (e.g., "Pasta")
+- Players give 1-2 word clues and vote to eliminate imposters
+- Mr. White can win by guessing the civilian word when caught!
 
 ## 🎯 How to Play
 
-1. **Setup**: Select 4-10 players and start the game
-2. **Word Distribution**: Each player privately views their word
-3. **Give Clues**: Players take turns giving one-word clues about their word
-4. **Discussion**: Talk and figure out who has different words
-5. **Vote**: Eliminate players you suspect are Mr. White or Undercover
-6. **Win Conditions**:
-   - **Civilians win**: Eliminate all imposters
-   - **Mr. White wins**: Get eliminated but correctly guess the civilian word
-   - **Undercovers win**: If only one civilian remains
+### Setup
+1. Select 4-10 players and start the game
+2. Each player privately views their word one by one
+3. **IMPORTANT**: Mr. White sees "NO WORD" - they must figure it out!
+
+### Gameplay
+1. **Round Start**: A random player begins, continue clockwise
+2. **Give Clues**: Each player gives a 1-2 word clue about their word
+   - Civilians: Be specific enough for others but not too obvious for Mr. White
+   - Mr. White: Give vague clues that could apply to anything
+   - Undercover: Give clues about your word, not the civilian word
+3. **Discussion**: After all clues, discuss who seems suspicious
+4. **Vote**: Point at who you think is Mr. White or Undercover
+5. **Elimination**: Player with most votes is eliminated
+
+### If Mr. White is Caught:
+- Mr. White gets **ONE chance** to guess the civilian word
+- ✅ **Correct guess** = Mr. White wins instantly!
+- ❌ **Wrong guess** = Civilians win!
+
+### If Wrong Person is Eliminated:
+- They're out of the game
+- Continue with new round of clues for the same word
+- Repeat until Mr. White is found
+
+### Special Rule:
+🎭 **Mr. White can reveal themselves at ANY time to guess the word!**
+
+### Win Conditions:
+- **Civilians win**: Eliminate all imposters (Mr. White + Undercovers)
+- **Mr. White wins**: Survive as last person OR correctly guess the word when caught
+- **Undercovers win**: If only one civilian remains
 
 ## 🎲 Role Distribution
 
@@ -38,10 +61,12 @@ A beautiful, web-based party game where players try to identify the imposters am
 - 🎨 Beautiful, modern UI with gradient animations
 - 📱 Fully responsive - works on mobile, tablet, and desktop
 - 🔒 Private word viewing (one player at a time)
-- 🎯 100+ curated word pairs with themed categories
+- 🎯 **180+ curated word pairs** with themed categories
+- ❌ **Mr. White gets NO WORD** - must deduce from clues!
 - 🗳️ Built-in voting and elimination system
 - 🎭 Role reveal functionality
 - ♻️ Quick restart for multiple rounds
+- 🎲 Flexible role distribution (scalable undercover system)
 
 ## 📂 Files
 
@@ -85,35 +110,37 @@ A beautiful, web-based party game where players try to identify the imposters am
 
 ## 🎨 Word Categories
 
-The game includes 100+ word pairs across 13 themed categories:
-- 🍕 Food & Cuisine
-- 🦁 Animals
-- 💻 Technology
-- ⚽ Sports & Games
-- 🎬 Entertainment
-- 🏖️ Places
-- 👨‍⚕️ Professions
-- 🚗 Vehicles
-- 🌤️ Nature
-- 📱 Objects
-- 🎄 Seasons & Holidays
+The game includes 180+ word pairs across multiple themed categories:
+- 🍕 Food & Cuisine (35 pairs)
+- 🦁 Animals (35 pairs)
+- 💻 Technology (30 pairs)
+- ⚽ Sports & Games (30 pairs)
+- 🎬 Entertainment (25 pairs)
+- 🏖️ Places (25 pairs)
+- 👨‍⚕️ Professions (20 pairs)
+- 🚗 Vehicles (15 pairs)
 
 ## 🎯 Tips for Playing
 
 **For Civilians:**
-- Give clues that are specific but not too obvious
-- Listen carefully to other players' clues
-- Look for someone whose clues don't quite fit
+- Give clues that are specific enough for other civilians but not obvious for Mr. White
+- Listen carefully - if someone's clues seem off, they might be an imposter
+- Don't make your clues too obvious or Mr. White will learn the word!
+- Work together with other civilians to identify patterns
 
 **For Mr. White:**
-- Give vague clues that could apply to many things
-- Try to figure out the civilian word from their clues
-- Blend in by mimicking the style of other clues
+- Give intentionally vague clues that could apply to many things
+- Listen carefully to all clues to deduce the word
+- Mimic the style and confidence of other players
+- You can reveal yourself at ANY time to guess the word!
+- If you're confident, take the risk and guess early
+- Even if caught, you still have a chance to win by guessing correctly
 
 **For Undercovers:**
-- Give clues about your word, not the civilian word
-- Be subtle - you want to survive longer than Mr. White
-- Use your elimination votes strategically
+- Give clues about YOUR word, not the civilian word
+- Be subtle - you want to survive longer than Mr. White  
+- Try to blend in while still being truthful about your word
+- Use strategic voting to your advantage
 
 ## 📱 Mobile Friendly
 
