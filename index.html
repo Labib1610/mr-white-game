@@ -12,6 +12,111 @@
     <!-- Main Container -->
     <div class="container">
         
+        <!-- Rules Modal -->
+        <div id="rulesModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeRulesModal()">&times;</span>
+                <h2>📜 Complete Game Rules</h2>
+                
+                <div class="rules-section">
+                    <h3>🎯 Objective</h3>
+                    <p><strong>Civilians:</strong> Find and eliminate Mr. White and all Undercovers</p>
+                    <p><strong>Mr. White:</strong> Survive or guess the civilian word when caught</p>
+                    <p><strong>Undercover:</strong> Survive longer than Mr. White</p>
+                </div>
+
+                <div class="rules-section">
+                    <h3>🎮 Setup</h3>
+                    <ol>
+                        <li>Select 4-10 players</li>
+                        <li>Optionally rename players</li>
+                        <li>Each player views their secret word privately</li>
+                        <li><strong>Important:</strong> Mr. White gets NO WORD!</li>
+                    </ol>
+                </div>
+
+                <div class="rules-section">
+                    <h3>🔄 Gameplay Loop</h3>
+                    <ol>
+                        <li><strong>Clue Round:</strong> Starting with random player, go clockwise. Each gives 1-2 word clue</li>
+                        <li><strong>Discussion:</strong> Players discuss who seems suspicious</li>
+                        <li><strong>Voting:</strong> Everyone points at their suspect. Most votes = eliminated</li>
+                        <li><strong>If Mr. White caught:</strong> Gets ONE guess at civilian word
+                            <ul>
+                                <li>✅ Correct = Mr. White wins!</li>
+                                <li>❌ Wrong = Civilians win!</li>
+                            </ul>
+                        </li>
+                        <li><strong>If wrong person:</strong> They're out. New round with same word</li>
+                        <li><strong>Repeat</strong> until game ends</li>
+                    </ol>
+                </div>
+
+                <div class="rules-section">
+                    <h3>🏆 Winning Conditions</h3>
+                    <p><strong>Civilians Win:</strong> Eliminate all imposters (Mr. White + Undercovers)</p>
+                    <p><strong>Mr. White Wins:</strong> Correctly guess the word OR survive as last player</p>
+                    <p><strong>Undercover Wins:</strong> Only 1 civilian remains</p>
+                </div>
+
+                <div class="rules-section">
+                    <h3>💡 Pro Tips</h3>
+                    <ul>
+                        <li><strong>Civilians:</strong> Be specific but not obvious. Listen for inconsistencies</li>
+                        <li><strong>Mr. White:</strong> Give vague clues. You can reveal yourself ANYTIME to guess!</li>
+                        <li><strong>Undercover:</strong> You don't know you're undercover - play naturally!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeSettingsModal()">&times;</span>
+                <h2>⚙️ Game Settings</h2>
+                
+                <div class="settings-section">
+                    <h3>🎭 Role Configuration</h3>
+                    
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="includeUndercoverToggle" checked onchange="updateSettings()">
+                            <span>Include Undercover Roles</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label for="mrWhiteCount">Number of Mr. Whites:</label>
+                        <select id="mrWhiteCount" onchange="updateSettings()">
+                            <option value="1" selected>1 Mr. White</option>
+                            <option value="2">2 Mr. Whites</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🎨 Display Options</h3>
+                    
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="showRoleDistribution" checked onchange="updateSettings()">
+                            <span>Show role distribution before game</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="enableAnimations" checked onchange="updateSettings()">
+                            <span>Enable animations</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="closeSettingsModal()">Save Settings</button>
+            </div>
+        </div>
+
         <!-- Welcome Screen -->
         <div id="welcomeScreen" class="screen active">
             <div class="logo">
