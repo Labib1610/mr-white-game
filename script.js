@@ -394,8 +394,10 @@ function revealWord() {
         document.getElementById('roleLabel').textContent = '(You are Mr. White! Figure out the word!)';
         document.getElementById('secretWord').style.color = '#FF6584';
     } else {
+        // Civilians and Undercovers DON'T see their role - they just see the word
+        // This prevents Undercovers from being self-conscious!
         document.getElementById('secretWord').textContent = currentRole.word;
-        document.getElementById('roleLabel').textContent = `(${currentRole.role})`;
+        document.getElementById('roleLabel').textContent = '(Your Secret Word)';
         document.getElementById('secretWord').style.color = '#4CAF50';
     }
     
